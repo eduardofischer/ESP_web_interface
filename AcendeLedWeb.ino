@@ -1,4 +1,5 @@
-#include <ESP8266WiFi.h>
+//#include <ESP8266WiFi.h>    --Uncomment for NodeMCU
+//#include <WiFi.h>   --Uncomment for ESP32
 #define PIN1 15
 
 const char* ssid = "########";
