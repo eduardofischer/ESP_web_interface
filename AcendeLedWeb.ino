@@ -6,7 +6,6 @@ const char* password = "########";
 
 // Network settings
 IPAddress ip(10, 1, 1, 50);
-IPAddress dns(8, 8, 8, 8);
 IPAddress gateway(10, 1, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
@@ -27,7 +26,7 @@ void setup() {
   Serial.print("Connecting to ");
   Serial.println(ssid);
 
-  WiFi.config(ip, dns, gateway, subnet);
+  WiFi.config(ip, gateway, subnet);
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
@@ -127,7 +126,6 @@ void loop() {
   client.print(s);
   delay(1);
 
-  client.close();
   // The client will actually be disconnected
   // when the function returns and 'client' object is detroyed
 }
