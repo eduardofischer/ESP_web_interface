@@ -14,6 +14,9 @@ IPAddress subnet(255, 255, 255, 0);
 // specify the port to listen on as an argument
 WiFiServer server(80);
 
+// Variable for the alarm time
+String timeAlarm;
+
 void setup() {
   Serial.begin(115200);
   delay(10);
@@ -64,10 +67,13 @@ void loop() {
 
   // Match the request
   // Set GPIO2 according to the request
-  if (req.indexOf("/gpio/0") != -1)
+  if (req.indexOf("/gpio/0") != -1){
     digitalWrite(PIN1, 0);
-  else if (req.indexOf("/gpio/1") != -1)
+  }else if (req.indexOf("/gpio/1") != -1){
     digitalWrite(PIN1, 1);
+  }else if (req.indexOf("/time/") != -1){
+    timeAlarm = req.substring(10,18);
+  }
 
   client.flush();
 
@@ -106,6 +112,12 @@ void loop() {
   s += "                    $('#btn').addClass('btn-success').removeClass('btn-danger').text('Ligar');";
   s += "                }";
   s += "            }";
+  s += "            function setTime(){";
+  s += "              var time = $('#time').val();";
+  s += "              var xhttp = new XMLHttpRequest;";
+  s += "              xhttp.open('GET', '/time/' + time, true);";
+  s += "              xhttp.send();";
+  s += "            }";
   s += "        </script>";
   s += "        <div class='jumbotron text-center'>";
   s += "            <h1 class='display-2'>";
@@ -119,6 +131,23 @@ void loop() {
   s += "                  <button id='btn' onclick='enviar(status)' style='font-size: 40pt; padding: 30px;' class='btn btn-success btn-lg w-100'>Ligar </button>";
   s += "              </div>";
   s += "          </div>";
+  s += "          <div class='row' style='margin-top:70px;'>";
+  s += "              <div class='col-md-4'>";
+  s += "                  <h4>Despertador!<br><small>Configure um horário para ascender diariamente</small></h4>";
+  s += "              </div>";
+  s += "              <div class='col-md-2'>";
+  s += "                <form class=''>";
+  s += "                  <div class='form-group'>";
+  s += "                      <label for='time' class='mr-3'>Hora: </label>";
+  s += "                      <input type='time' id='time' value='07:00:00' class='form-control mr-4'>";
+  s += "                  </div>";
+  s += "                </form>";
+  s += "              </div>";
+  s += "              <div class='col-sm'>";
+  s += "                  <button id='btn-time' onclick='setTime()' class='btn btn-primary btn-lg mt-4'>Salvar</button>";
+  s += "              </div>";
+  s += "          </div>";
+  s += "";
   s += "        </div>";
   s += "    </body>";
   s += "</html>";
